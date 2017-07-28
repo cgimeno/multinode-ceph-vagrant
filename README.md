@@ -262,7 +262,24 @@ vagrant@ceph-client:~$ sudo mount /dev/rbd/rbd/foo /mnt/ceph-block-device
 
 ### Create a mount with Ceph FS
 
-TODO
+We need to create 2 pools for CephFS
+
+    ceph osd pool create cephfs_data 32
+    ceph osd pool create cephfs_metadata 32
+
+Create a new filesystem
+
+    ceph fs new cephfs cephfs_metadata cephfs_data
+
+Lastly, check that everything is working as expected
+
+    ceph mds stat
+
+Now, you can mount your filesystem
+
+    mount -t ceph monitor_ip:6789:/ directory -o name=user,secret=ceph_secret
+
+
 
 ### Store a blob object
 
